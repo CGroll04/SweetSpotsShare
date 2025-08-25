@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["charliegroll04@gmail.com.charliegroll.SweetSpots"],
+        "components": [
+          { "/": "/s/*" }
+        ]
+      }
+    ]
+  }
+}
