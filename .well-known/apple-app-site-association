@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["BQJVVK7V3Q.com.charliegroll.SweetSpots"],
+        "components": [
+          { "/": "/s/*" }
+        ]
+      }
+    ]
+  }
+}
