@@ -14,65 +14,48 @@
         .container { background-color: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 560px; }
         h1 { font-size: 24px; color: #1c1e21; margin-bottom: 8px; }
         p { font-size: 16px; color: #606770; margin-top: 0; }
-        .item-name { font-weight: 600; color: #0a84ff; }
         .button { display: inline-block; background-color: #0a84ff; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 20px; }
     </style>
+    <script>
+        window.onload = function() {
+            // 1. Get query parameters
+            const params = new URLSearchParams(window.location.search);
+            const type = params.get('type');
+            const uid = params.get('uid');
+            const id = params.get('id');
+
+            // 2. Logic for the NEW Live Share system
+            if (type && uid && id) {
+                // Construct the Deep Link for the app
+                const appUrl = `sweetspotsapp://share?type=${type}&uid=${uid}&id=${id}`;
+                
+                // Update text
+                const mainMsg = document.getElementById('main-message');
+                const detailMsg = document.getElementById('details-message');
+                
+                if (type === 'spot') {
+                    mainMsg.textContent = "A SweetSpot was shared with you!";
+                    detailMsg.textContent = "Tap below to view it in the app.";
+                } else if (type === 'collection') {
+                    mainMsg.textContent = "A Collection was shared with you!";
+                    detailMsg.textContent = "Tap below to view the collection in the app.";
+                }
+
+                // Try to open the app automatically
+                window.location.href = appUrl;
+                
+                // Update button to try opening app again manually
+                document.getElementById('action-button').href = appUrl;
+                document.getElementById('action-button').textContent = "Open in App";
+            }
+        };
+    </script>
 </head>
 <body>
     <div class="container">
-        <h1 id="main-message">A SweetSpot Was Shared With You</h1>
-        <p id="details-message">Open it in the SweetSpots app!</p>
-        <a href="https://apps.apple.com/ca/app/sweetspots/id6747997071" class="button">Get SweetSpots</a>
+        <h1 id="main-message">SweetSpots</h1>
+        <p id="details-message">The easiest way to save and share your favorite spots.</p>
+        <a id="action-button" href="https://apps.apple.com/ca/app/sweetspots/id6747997071" class="button">Get SweetSpots</a>
     </div>
-
-    <script>
-        // This function runs as soon as the page loads
-        window.onload = function() {
-            try {
-                // 1. Get the URL path and query parameters
-                const url = new URL(window.location.href);
-                const path = url.pathname;
-                const params = url.searchParams;
-                const payloadB64 = params.get('p');
-
-                if (!payloadB64) return; // Do nothing if there's no payload
-
-                // 2. Decode the payload data
-                const decodedJson = base64UrlDecode(payloadB64);
-                const data = JSON.parse(decodedJson);
-
-                // 3. Get the HTML elements we want to update
-                const mainMessageElem = document.getElementById('main-message');
-                const detailsMessageElem = document.getElementById('details-message');
-
-                let senderText = data.senderName ? `${data.senderName} shared` : "You've been sent";
-                
-                // 4. Check if it's a spot or a collection and update the text
-                if (path.includes('/s/spot')) {
-                    const spotName = data.name || "a SweetSpot";
-                    mainMessageElem.textContent = `${senderText} a SweetSpot!`;
-                    detailsMessageElem.innerHTML = `Add "<span class="item-name">${spotName}</span>" to your list.`;
-
-                } else if (path.includes('/s/collection')) {
-                    const collectionName = data.collectionName || "a collection";
-                    mainMessageElem.textContent = `${senderText} a collection!`;
-                    detailsMessageElem.innerHTML = `Check out the "<span class="item-name">${collectionName}</span>" collection.`;
-                }
-
-            } catch (error) {
-                console.error("Failed to parse share link:", error);
-            }
-        };
-
-        // Helper function to decode Base64URL strings
-        function base64UrlDecode(str) {
-            let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
-            const pad = 4 - (base64.length % 4);
-            if (pad < 4) {
-                base64 += "=".repeat(pad);
-            }
-            return atob(base64);
-        }
-    </script>
 </body>
 </html>
