@@ -1,2 +1,4 @@
-/s/*      /download.html   302
-/c/* /download.html    302
+/apple-app-site-association  /apple-app-site-association  200
+/.well-known/apple-app-site-association  /apple-app-site-association  200
+/share/* /index.html  200
+/* /index.html  200
