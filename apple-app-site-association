@@ -3,7 +3,7 @@
     "details": [
       {
         "appID": "BQJVVK7V3Q.com.charliegroll.SweetSpots",
-        "paths": [ "/s/*", "/c/*" ]
+        "paths": [ "/share", "/share/*", "/s/*", "/c/*" ]
       }
     ]
   }
